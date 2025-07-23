@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical ABC Bakery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Magical ABC Bakery</h1>
+    <div id="game-container">
+        <div id="player"></div>
+    </div>
+    <div id="ui-container">
+        <h2>スコア: <span id="score">0</span></h2>
+        <h2>ライフ: <span id="lives"></span></h2>
+    </div>
+    <button id="start-button">ゲーム開始</button>
+    <div id="game-over" style="display: none;">
+        <h2>ゲームオーバー</h2>
+        <p>最終スコア: <span id="final-score">0</span></p>
+        <!-- <button id="restart-button">もう一度挑戦</button> -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
