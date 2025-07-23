@@ -1,189 +1,94 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap');
 
+/* --- 基本設定 --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* 横スクロールを防止 */
+}
+
 body {
     font-family: 'IM Fell English SC', serif;
     text-align: center;
-    background: linear-gradient(to bottom, #000033, #330066, #663399); /* 夜空のグラデーション */
+    background: linear-gradient(to bottom, #000033, #330066, #663399);
     color: #fff;
     text-shadow: 2px 2px 4px #000;
 }
 
 h1 {
-    color: #FFD700; /* ゴールド */
+    color: #FFD700;
     font-size: 3em;
     letter-spacing: 5px;
+    margin: 20px 0;
 }
 
+/* --- ゲームコンテナ --- */
 #game-container {
     position: relative;
-    width: 800px;
-    height: 600px;
-    border: 10px ridge #C0C0C0; /* シルバーの装飾的なボーダー */
+    max-width: 800px;
+    max-height: 600px;
+    width: 98vw; 
+    height: calc(98vw * 0.75); /* 幅(98vw)に対して4:3の比率を保つ */
+    border: 10px ridge #C0C0C0;
     border-radius: 20px;
     margin: 20px auto;
-    background-image: url('back.png'); /* 星屑のテクスチャ */
+    background-image: url('back.png');
     background-size: 150%;
     background-position: center;
     overflow: hidden;
     box-shadow: 0 15px 30px rgba(0,0,0,0.5);
 }
 
-/* 魔法のホウキに乗ったネコ */
+/* --- プレイヤー (PC用) --- */
 #player {
     position: absolute;
-    width: 180px; /* 大きくしました */
-    height: 135px;  /* 大きくしました */
-    /* background-color: red; */ /* デバッグ用に赤色に変更 */
-    background-image: url('file:///Users/takumaoawa/Desktop/ai/paw-patrol-game/catch.png');
+    width: 15%; 
+    height: 15%;
+    background-image: url('catch.png');
     background-size: contain;
     background-repeat: no-repeat;
-    bottom: 15px;
-    left: 310px; /* 中央に配置し直しました */
+    bottom: 5%;
+    left: 42.5%;
     transition: left 0.1s linear;
-    z-index: 100; /* 他の要素より手前に表示 */
+    z-index: 100;
 }
 
-/* --- 落下してくるオブジェクト --- */
+/* --- 落下オブジェクト --- */
+.falling-object { position: absolute; }
+.item-star { width: 10%; height: 12%; background-image: url('score3.png?v=1'); background-size: contain; background-repeat: no-repeat; }
+.item-potion { width: 10%; height: 12%; background-image: url('score2.png?v=3'); background-size: contain; background-repeat: no-repeat; }
+.item-crystal { width: 8%; height: 8%; background-image: url('score1.png?v=3'); background-size: contain; background-repeat: no-repeat; }
+.obstacle-ghost { width: 13%; height: 13%; background-image: url('enemy.png?v=2'); background-size: contain; background-repeat: no-repeat; }
 
-.falling-object {
-    position: absolute;
-}
+/* --- UIエリア --- */
+#ui-container { display: flex; justify-content: center; align-items: center; gap: 30px; background-color: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 10px; margin: 20px auto; width: 80%; max-width: 600px; }
+h2 { font-size: 1.5em; margin: 0; }
 
-/* 星のかけら */
-.item-star {
-    width: 75px;
-    height: 90px;
-    background-image: url('score3.png?v=1');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: transparent;
-}
+/* --- ゲームオーバー画面 & ボタン --- */
+#game-over { margin-top: 20px; color: #DC143C; font-size: 2em; }
+button { font-family: 'IM Fell English SC', serif; font-size: 1.5em; padding: 15px 30px; border-radius: 50px; border: 3px solid #FFD700; background: linear-gradient(to bottom, #663399, #330066); color: #fff; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 10px rgba(0,0,0,0.3); margin-top: 10px; }
+button:hover { background: linear-gradient(to bottom, #8A2BE2, #4B0082); transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.5); }
 
-/* 魔法のポーション */
-.item-potion {
-    width: 75px !important;
-    height: 90px !important;
-    background-image: url('score2.png?v=3');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: transparent;
-}
-
-/* クリスタル */
-.item-crystal {
-    width: 50px !important;
-    height: 50px !important;
-    background-image: url('score1.png?v=3');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: transparent;
-}
-
-/* おばけ */
-.obstacle-ghost {
-    width: 100px; /* 画像サイズに合わせて調整 */
-    height: 100px; /* 画像サイズに合わせて調整 */
-    background-image: url('enemy.png?v=2');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: transparent; /* 背景色を透明に */
-    /* animation: float 3s ease-in-out infinite; */ /* 画像なのでアニメーションは一旦停止 */
-}
-
-
-#ui-container {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 10px;
-    margin: 0 auto;
-    width: 50%;
-}
-
-.life-icon {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    background-image: url('https://toppng.com/uploads/preview/health-potion-icon-game-art-11553430195exk6kxt7f0.png'); /* ここにライフアイコン画像を配置 */
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-
-#game-over {
-    margin-top: 20px;
-    color: #DC143C;
-    font-size: 2em;
-}
-
-button {
-    font-family: 'IM Fell English SC', serif;
-    font-size: 1.5em;
-    padding: 15px 30px;
-    border-radius: 50px;
-    border: 3px solid #FFD700;
-    background: linear-gradient(to bottom, #663399, #330066);
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-}
-
-button:hover {
-    background: linear-gradient(to bottom, #8A2BE2, #4B0082);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.5);
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-/* --- スマートフォン対応 --- */
+/* --- スマートフォン用の調整 (ここが重要) --- */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 2em;
-        letter-spacing: 3px;
-    }
+    h1 { font-size: 8vw; letter-spacing: 3px; }
+    #game-container { border-width: 5px; margin: 10px auto; }
 
-    #game-container {
-        width: 95vw; /* 画面幅の95% */
-        height: 80vh; /* 画面の高さの80% */
-        border-width: 5px;
-    }
-
+    /* --- プレイヤー (スマートフォン専用) --- */
     #player {
-        width: 100px;
-        height: 75px;
-        left: calc(50% - 50px); /* 中央配置 */
+        /* 画像を再指定して、確実に読み込ませる */
+        background-image: url('catch.png'); 
+        
+        /* 画面サイズに応じた、より確実な単位でサイズと位置を指定 */
+        width: 18vw;
+        height: 18vw;
+        bottom: 3vh;
+        left: calc(50% - 9vw); /* 画面の中央に配置 */
     }
 
-    .item-star, .item-potion, .item-crystal, .obstacle-ghost {
-        /* アイテムのサイズを少し小さくする */
-        transform: scale(0.8);
-    }
-
-    #ui-container {
-        width: 90%;
-        gap: 20px;
-        flex-direction: column; /* 縦並びにする */
-    }
-
-    h2 {
-        font-size: 1.2em;
-    }
-
-    button {
-        font-size: 1.2em;
-        padding: 12px 25px;
-    }
+    #ui-container { flex-direction: column; gap: 10px; width: 90%; padding: 15px; }
+    h2 { font-size: 5vw; }
+    button { font-size: 5vw; padding: 12px 25px; }
+    #game-over { font-size: 7vw; }
 }
-
