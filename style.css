@@ -21,8 +21,9 @@ h1 {
     border: 10px ridge #C0C0C0; /* シルバーの装飾的なボーダー */
     border-radius: 20px;
     margin: 20px auto;
-    background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); /* 星屑のテクスチャ */
-    background-color: rgba(0, 0, 0, 0.3);
+    background-image: url('back.png'); /* 星屑のテクスチャ */
+    background-size: 150%;
+    background-position: center;
     overflow: hidden;
     box-shadow: 0 15px 30px rgba(0,0,0,0.5);
 }
@@ -145,3 +146,44 @@ button:hover {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-20px); }
 }
+
+/* --- スマートフォン対応 --- */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+        letter-spacing: 3px;
+    }
+
+    #game-container {
+        width: 95vw; /* 画面幅の95% */
+        height: 80vh; /* 画面の高さの80% */
+        border-width: 5px;
+    }
+
+    #player {
+        width: 100px;
+        height: 75px;
+        left: calc(50% - 50px); /* 中央配置 */
+    }
+
+    .item-star, .item-potion, .item-crystal, .obstacle-ghost {
+        /* アイテムのサイズを少し小さくする */
+        transform: scale(0.8);
+    }
+
+    #ui-container {
+        width: 90%;
+        gap: 20px;
+        flex-direction: column; /* 縦並びにする */
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    button {
+        font-size: 1.2em;
+        padding: 12px 25px;
+    }
+}
+

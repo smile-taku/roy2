@@ -29,6 +29,18 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// タッチ操作
+gameContainer.addEventListener('touchstart', (e) => {
+    const touchX = e.touches[0].clientX;
+    const screenWidth = window.innerWidth;
+    
+    if (touchX < screenWidth / 2) {
+        movePlayer('left');
+    } else {
+        movePlayer('right');
+    }
+});
+
 startButton.addEventListener('click', startGame);
 // restartButton.addEventListener('click', restartGame); // 不要なので削除
 
